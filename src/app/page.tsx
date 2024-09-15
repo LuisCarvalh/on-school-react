@@ -11,6 +11,11 @@ import Links from "./components/Shared/Link"
 import Titulo from "./components/TelaLogin/Titulo"
 import * as Yup from 'yup';
 
+import { useRouter } from "next/navigation";
+import { Bounce, ToastContainer, toast} from "react-toastify";
+
+import 'react-toastify/dist/ReactToastify.css';
+
 const validationSchema = Yup.object({
   email: Yup.string()
             .required('Informe um email para continuar!')
@@ -21,9 +26,42 @@ const validationSchema = Yup.object({
 
 export default function Home() {
 
-  const handleClick = (values: any) => {
-    console.log(values)
+  const router = useRouter();
+
+  const handleClick = async (values: any) => {
+    try {
+      const response = await fetch("http://localhost:3000/user/signin",{
+        method:"POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(values)
+      })
+      const data = await response.json();
+      if(response.ok){
+        document.cookie = `token=${data.token}; expires=Thu, 18 Dec 2029 12:00:00 UTC; path=/`
+        //colocar rota para tela de listagem de posts
+      }else{
+        errorHandler();
+      }
+    } catch (error) {
+      errorHandler();
+    }
   };
+
+  const errorHandler = () => {
+    toast.error("Erro ao realizar o login!", {
+      position: "bottom-center",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+      transition: Bounce
+    })
+  }
 
   const initialValues = {
     email: '',
@@ -51,6 +89,20 @@ export default function Home() {
           </Form>
         </Formik>
       </Container>
+
+      <ToastContainer
+          position="bottom-center"
+          autoClose={5000}
+          hideProgressBar
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored"          
+          transition={Bounce}
+          />
     </main>
   );
 }

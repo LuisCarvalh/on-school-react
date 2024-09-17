@@ -10,7 +10,10 @@ import Label from "../../app/components/Shared/Label"
 import Links from "../../app/components/Shared/Link"
 import Titulo from "../../app/components/TelaLogin/Titulo"
 import * as Yup from 'yup';
+import { useRouter } from "next/router";
+import { Bounce, ToastContainer, toast} from "react-toastify";
 
+import 'react-toastify/dist/ReactToastify.css';
 import '../../app/globals.css';
 
 const validationSchema = Yup.object({
@@ -30,11 +33,43 @@ const validationSchema = Yup.object({
 
 export default function Register() {
 
-  const handleClick = (values: any) => {
+  const router = useRouter();
+
+  const errorHandler = () => {
+    toast.error("Erro ao registrar o usuário!", {
+      position: "bottom-center",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+      transition: Bounce
+    })
+  }
+
+  const handleClick = async (values: any) => {
     let apiRequestBody = {...values}
     apiRequestBody.isadmin = apiRequestBody.isadmin == 'Professor' ? true : false;
     delete apiRequestBody.confirmPassword;
-    console.log(apiRequestBody)
+    try {
+      const response = await fetch("http://localhost:3000/user",{
+        method:"POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(apiRequestBody)
+      })
+  
+      if(response.ok){
+        router.push("/");
+      }else{
+        errorHandler();
+      }
+    } catch (error) {
+      errorHandler();
+    }
   };
 
   const initialValues = {
@@ -83,6 +118,20 @@ export default function Register() {
           </Form>
         </Formik>
       </Container>
+
+      <ToastContainer
+          position="bottom-center"
+          autoClose={5000}
+          hideProgressBar
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored"          
+          transition={Bounce}
+          />
     </>
   );
 }

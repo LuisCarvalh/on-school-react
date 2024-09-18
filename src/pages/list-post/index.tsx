@@ -20,7 +20,6 @@ const PostListPage = () => {
     const fetchPosts = async (page: number) => {
       setLoading(true);
       try {
-        console.log("TOKEN: ", user);
         const response = await fetch(`http://localhost:3000/post?page=${page}&limit=${postsPerPage}`, {
           method: 'GET',
           headers: {

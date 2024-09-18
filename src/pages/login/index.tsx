@@ -27,7 +27,7 @@ const validationSchema = Yup.object({
 
 export default function Login() {
   const router = useRouter();
-
+  const { setToken } = useUser();
   const handleClick = async (values: any) => {
     try {
       const response = await fetch("http://localhost:3000/user/signin",{
@@ -39,8 +39,7 @@ export default function Login() {
       })
       const data = await response.json();
       if(response.ok){
-        document.cookie = `token=${data.token}; expires=Thu, 18 Dec 2029 12:00:00 UTC; path=/`
-        // useUser();
+        await setToken(data.token);
         router.push('/list-post')
       }else{
         errorHandler();

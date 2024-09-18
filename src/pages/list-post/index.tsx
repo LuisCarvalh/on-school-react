@@ -1,18 +1,29 @@
-import PostList, { Post } from '@/app/components/Shared/Lista';
+'use client'
+
+
+import PostList from '@/app/components/Shared/Lista';
+import { useUser } from '@/context/UserContext';
+import { Post } from '@/interfaces/Post';
 import React, { useEffect, useState } from 'react';
 
-const PostListPage: React.FC = () => {
+const PostListPage = () => {
+  const { user } = useUser();
+
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [totalPages, setTotalPages] = useState<number>(0);
+  const postsPerPage = 10;
 
   useEffect(() => {
-    const fetchPosts = async () => {
+    const fetchPosts = async (page: number) => {
+      setLoading(true);
       try {
-        const response = await fetch('http://localhost:3000/post?page=0&limit=10', {
+        const response = await fetch(`http://localhost:3000/post?page=${page}&limit=${postsPerPage}`, {
           method: 'GET',
           headers: {
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InByb2Zlc3NvckB0ZXN0ZS5jb20iLCJpYXQiOjE3MjY1MzYzMTIsImV4cCI6MTcyNjUzNjkxMn0.-1M6T75mUliYp1xug75CB-OiToa1w7q5V_As1GFy7hw'
+            'Authorization': `Bearer ${user?.token}`
           }
         });
 
@@ -29,8 +40,20 @@ const PostListPage: React.FC = () => {
       }
     };
 
-    fetchPosts();
-  }, []);
+    fetchPosts(currentPage);
+  }, [currentPage]);
+
+  const handlePreviousPage = () => {
+    if (currentPage > 0) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages - 1) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
 
   if (loading) {
     return <div>Carregando...</div>;
@@ -40,7 +63,15 @@ const PostListPage: React.FC = () => {
     return <div>Erro: {error}</div>;
   }
 
-  return <PostList posts={posts} isAdmin={false } />;
+  return <PostList 
+            posts={posts}
+            isAdmin={user?.isadmin || false}
+            user={user}
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPreviousPage={handlePreviousPage}
+            onNextPage={handleNextPage}
+          />;
 };
 
 export default PostListPage;

@@ -1,7 +1,14 @@
+import Header from "@/app/components/Shared/Header";
+import { UserProvider } from "@/context/UserContext";
 import { AppProps } from "next/app";
 
 function Pages({Component, pageProps}: AppProps){
-    return < Component {...pageProps}/>
+    return (
+      <UserProvider>
+            <Header />
+            <Component {...pageProps} />
+      </UserProvider>
+      );
 }
 
 export default Pages;

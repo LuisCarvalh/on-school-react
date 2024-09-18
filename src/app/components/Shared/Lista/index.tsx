@@ -1,27 +1,19 @@
-import React from 'react';
+'use client'
+
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Button from '../Button';
-
-interface Author {
-  id: string;
-  name: string;
-  email: string;
-  password: string;
-  isadmin: boolean;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface Post {
-  id: string;
-  title: string;
-  content: string;
-  author: Author;
-}
+import { Post } from '@/interfaces/Post';
+import { User } from '@/interfaces/User';
 
 interface PostListProps {
   posts: Post[];
   isAdmin: boolean;
+  user: User  | null;
+  currentPage: number;
+  totalPages: number;
+  onPreviousPage: () => void;
+  onNextPage: () => void;
 }
 
 const PostListContainer = styled.div`
@@ -71,13 +63,41 @@ const ButtonContainer = styled.div`
   justify-content: flex-end;
 `;
 
-const PostList: React.FC<PostListProps> = ({ posts, isAdmin }) => {
+const PaginationContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+`;
+
+const PaginationButton = styled.button`
+  margin: 0 5px;
+`;
+
+const PostList: React.FC<PostListProps> = ({ posts, isAdmin, user, currentPage, totalPages, onPreviousPage, onNextPage }) => {
+  const [postsList, setPosts] = useState<Post[]>(posts);
+
     const handleEdit = (id: string) => {
         console.log(`Edit post with id: ${id}`);
       };
     
-      const handleDelete = (id: string) => {
-        console.log(`Delete post with id: ${id}`);
+      const handleDelete = async (id: string) => {
+        try {
+          const response = await fetch(`http://localhost:3000/post/${id}`, {
+            method: 'DELETE',
+            headers: {
+              'Authorization': `Bearer ${user?.token}`
+            }
+          });
+    
+          if (!response.ok) {
+            throw new Error('Erro ao deletar o post');
+          }
+    
+          console.log(`Post com id: ${id} deletado com sucesso`);
+          setPosts(postsList.filter(post => post.id !== id));
+        } catch (error) {
+          console.error('Erro ao deletar o post:', error);
+        }
       };
 
    
@@ -85,12 +105,12 @@ const PostList: React.FC<PostListProps> = ({ posts, isAdmin }) => {
             <PostListContainer>
               <Title>Lista de Posts</Title>
               <PostListUl>
-                {posts.map(post => (
+                {postsList.map(post => (
                   <PostListItem key={post.id}>
                     <PostTitle>{post.title}</PostTitle>
                     <PostContent>{post.content}</PostContent>
                     <AuthorInfo><strong>Autor:</strong> {post.author.name}</AuthorInfo>
-                    {isAdmin &&(
+                    {isAdmin && (
                         <ButtonContainer>
                             <Button onClick={() => handleEdit(post.id)} variant="primary">Editar</Button>
                             <Button onClick={() => handleDelete(post.id)} variant="secondary">Deletar</Button>
@@ -99,6 +119,15 @@ const PostList: React.FC<PostListProps> = ({ posts, isAdmin }) => {
                   </PostListItem>
                 ))}
               </PostListUl>
+              <PaginationContainer>
+                <PaginationButton onClick={onPreviousPage} disabled={currentPage === 0}>
+                  Anterior
+                </PaginationButton>
+                <span>Página {currentPage + 1} de {totalPages}</span>
+                <PaginationButton onClick={onNextPage} disabled={currentPage === totalPages - 1}>
+                  Próxima
+                </PaginationButton>
+              </PaginationContainer>
             </PostListContainer>
           );
  

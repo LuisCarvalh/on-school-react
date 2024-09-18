@@ -15,6 +15,7 @@ import { useRouter } from "next/navigation";
 import { Bounce, ToastContainer, toast} from "react-toastify";
 
 import 'react-toastify/dist/ReactToastify.css';
+import { useUser } from "@/context/UserContext";
 
 const validationSchema = Yup.object({
   email: Yup.string()
@@ -25,7 +26,6 @@ const validationSchema = Yup.object({
 })
 
 export default function Home() {
-
   const router = useRouter();
 
   const handleClick = async (values: any) => {
@@ -40,7 +40,8 @@ export default function Home() {
       const data = await response.json();
       if(response.ok){
         document.cookie = `token=${data.token}; expires=Thu, 18 Dec 2029 12:00:00 UTC; path=/`
-        //colocar rota para tela de listagem de posts
+        // useUser();
+        router.push('/list-post')
       }else{
         errorHandler();
       }

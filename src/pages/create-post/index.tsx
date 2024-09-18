@@ -1,3 +1,5 @@
+'use client'
+
 import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from 'yup';
 import ErrorText from "../../app/components/Shared/ErrorText";
@@ -7,18 +9,18 @@ import Container from "../../app/components/TelaLogin/Container";
 import Button from "../../app/components/TelaLogin/Button";
 import Label from "../../app/components/Shared/Label";
 import Titulo from "../../app/components/TelaLogin/Titulo";
-import { useState } from "react";
-import SuccessPopup from "@/app/components/Shared/SuccessPopup";
+import { useUser } from "@/context/UserContext";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 const CreatePost = () => {
-  const [showPopup, setShowPopup] = useState(false);
-  const [popupMessage, setPopupMessage] = useState('');
+  const { user } = useUser();
+  const router = useRouter();
 
   const initialValues = {
     title: '',
     text: '',
-    author: '92259a7f-a2be-4209-a90d-5bafc32f51b6' // Adicione o campo author
-
+    author: ''
   };
 
   const validationSchema = Yup.object({
@@ -32,12 +34,12 @@ const CreatePost = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InByb2Zlc3NvckB0ZXN0ZS5jb20iLCJpYXQiOjE3MjY0MjIzMTAsImV4cCI6MTcyNjQyMjkxMH0.SmVEcE_tbgzUBn9lUhR2sfOXhm4fLgxxlXFzTM9NqBE' 
+          'Authorization': `Bearer ${user?.token}`
         },
         body: JSON.stringify({
           title: values.title,
           content: values.text,
-          author: '92259a7f-a2be-4209-a90d-5bafc32f51b6' // Adicione o campo author
+          author: user?.id
         })
       });
 
@@ -47,11 +49,11 @@ const CreatePost = () => {
 
       const data = await response.json();
       console.log('Post criado:', data);
-      setPopupMessage('Post criado com sucesso!');
-      setShowPopup(true);
+     
+      router.push('/list-admin')
     } catch (error) {
       console.error('Erro:', error);
-      // Aqui você pode adicionar lógica para lidar com o erro, como mostrar uma mensagem de erro para o usuário
+      //  adicionar lógica para lidar com o erro
     }
   };
 
@@ -77,7 +79,6 @@ const CreatePost = () => {
           </Form>
         )}
       </Formik>
-      {showPopup && <SuccessPopup message={popupMessage} onClose={() => setShowPopup(false)} />}
     </Container>
   );
 };

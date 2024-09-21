@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import Button from '../Button';
 import { Post } from '@/interfaces/Post';
 import { User } from '@/interfaces/User';
+import EditPost from '@/pages/edit-post';
 
 interface PostListProps {
   posts: Post[];
@@ -76,8 +77,29 @@ const PaginationButton = styled.button`
 const PostList: React.FC<PostListProps> = ({ posts, isAdmin, user, currentPage, totalPages, onPreviousPage, onNextPage }) => {
   const [postsList, setPosts] = useState<Post[]>(posts);
 
-    const handleEdit = (id: string) => {
-        console.log(`Edit post with id: ${id}`);
+    const handleEdit = async (id: string) => {
+        try {
+          const response = await fetch(`http://localhost:3000/post/${id}`, {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${user?.token}`
+            },
+          });
+    
+          if (!response.ok) {
+            throw new Error('Erro ao recuperar o post');
+          }
+          
+          const data = await response.json();
+          return <EditPost
+          id={id} 
+          title={data.title}
+          content={data.content}
+          author={data.author}/>
+          
+        } catch (error) {
+          console.error('Erro ao recuperar o post:', error);
+        }
       };
     
       const handleDelete = async (id: string) => {

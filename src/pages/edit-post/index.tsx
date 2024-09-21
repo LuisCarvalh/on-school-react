@@ -31,7 +31,7 @@ const EditPost: React.FC<Post> = ({ id, title, content, author }) => {
 
   const handleSubmit = async (values: { title: string, text: string }) => {
     try {
-      const response = await fetch('http://localhost:3000/post/:id', {
+      const response = await fetch(`http://localhost:3000/post/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

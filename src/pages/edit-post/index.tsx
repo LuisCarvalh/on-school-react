@@ -11,7 +11,6 @@ import Label from "../../app/components/Shared/Label";
 import Titulo from "../../app/components/TelaLogin/Titulo";
 import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 import { Post } from "@/interfaces/Post";
 
 const EditPost: React.FC<Post> = ({ id, title, content, author }) => {

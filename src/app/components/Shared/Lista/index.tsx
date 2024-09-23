@@ -6,6 +6,7 @@ import Button from '../Button';
 import { Post } from '@/interfaces/Post';
 import { User } from '@/interfaces/User';
 import EditPost from '@/pages/edit-post';
+import { useRouter } from 'next/router';
 
 interface PostListProps {
   posts: Post[];
@@ -47,6 +48,11 @@ const PostListItem = styled.li`
 const PostTitle = styled.h2`
   margin: 0 0 10px;
   color: #333;
+  cursor: pointer;
+
+  &:hover{
+    color: black;
+  }
 `;
 
 const PostContent = styled.p`
@@ -76,6 +82,7 @@ const PaginationButton = styled.button`
 
 const PostList: React.FC<PostListProps> = ({ posts, isAdmin, user, currentPage, totalPages, onPreviousPage, onNextPage }) => {
   const [postsList, setPosts] = useState<Post[]>(posts);
+  const router = useRouter();
 
     const handleEdit = async (id: string) => {
         try {
@@ -128,8 +135,11 @@ const PostList: React.FC<PostListProps> = ({ posts, isAdmin, user, currentPage, 
               <Title>Lista de Posts</Title>
               <PostListUl>
                 {postsList.map(post => (
-                  <PostListItem key={post.id}>
-                    <PostTitle>{post.title}</PostTitle>
+                  <PostListItem key={post.id} >
+                    <PostTitle onClick={() => router.push({
+                    pathname: "/details-post", 
+                    query: {title: post.title, content: post.content, author: post.author.name, createdAt: post.createdAt, updatedAt: post.updatedAt}
+                    })}>{post.title}</PostTitle>
                     <PostContent>{post.content}</PostContent>
                     <AuthorInfo><strong>Autor:</strong> {post.author.name}</AuthorInfo>
                     {isAdmin && (

@@ -12,11 +12,13 @@ import Titulo from "../../app/components/TelaLogin/Titulo";
 import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/router";
 import { Post } from "@/interfaces/Post";
+import Links from "@/app/components/Shared/Link";
 
-const EditPost: React.FC<Post> = ({ id, title, content, author }) => {
+const EditPost: React.FC<Post> = () => {
   const { user } = useUser();
   const router = useRouter();
-  
+  const { id, title, content, author} = router.query;
+
   const initialValues = {
     title: title,
     text: content,
@@ -59,6 +61,7 @@ const EditPost: React.FC<Post> = ({ id, title, content, author }) => {
 
   return (
     <Container>
+      <Links href="/list-post">Voltar</Links>
       <Titulo>Editar Post</Titulo>
       <Formik
         initialValues={initialValues}

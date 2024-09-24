@@ -6,5 +6,5 @@ export interface Post {
     content: string;
     author: Author;
     createdAt: string;
-    updatedAt: string;
+    updatedAt: string | null;
   }

@@ -12,6 +12,7 @@ import Titulo from "../../app/components/TelaLogin/Titulo";
 import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import Links from "@/app/components/Shared/Link";
 
 const CreatePost = () => {
   const { user } = useUser();
@@ -59,6 +60,7 @@ const CreatePost = () => {
 
   return (
     <Container>
+      <Links href="/list-post">Voltar</Links>
       <Titulo>Criar Post</Titulo>
       <Formik
         initialValues={initialValues}

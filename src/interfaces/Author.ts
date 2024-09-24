@@ -5,5 +5,5 @@ export interface Author {
     password: string;
     isadmin: boolean;
     createdAt: string;
-    updatedAt: string;
+    updatedAt: string | null;
   }

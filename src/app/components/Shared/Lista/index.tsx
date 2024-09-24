@@ -20,7 +20,7 @@ interface PostListProps {
 
 const PostListContainer = styled.div`
   max-width: 800px;
-  margin: 0 auto;
+  margin: 2rem auto 0;
   padding: 20px;
   background-color: #f9f9f9;
   border-radius: 8px;
@@ -84,84 +84,63 @@ const PostList: React.FC<PostListProps> = ({ posts, isAdmin, user, currentPage, 
   const [postsList, setPosts] = useState<Post[]>(posts);
   const router = useRouter();
 
-    const handleEdit = async (id: string) => {
-        try {
-          const response = await fetch(`http://localhost:3000/post/${id}`, {
-            method: 'GET',
-            headers: {
-              'Authorization': `Bearer ${user?.token}`
-            },
-          });
+  const handleRedirect = (post: Post, pathName: string) => {
+      router.push({
+        pathname: pathName,
+        query: {id: post.id, title: post.title, content: post.content, author: post.author.name, createdAt: post.createdAt, updatedAt: post.updatedAt}
+      })
+  };
     
-          if (!response.ok) {
-            throw new Error('Erro ao recuperar o post');
-          }
-          
-          const data = await response.json();
-          return <EditPost
-          id={id} 
-          title={data.title}
-          content={data.content}
-          author={data.author}/>
-          
-        } catch (error) {
-          console.error('Erro ao recuperar o post:', error);
+  const handleDelete = async (id: string) => {
+    try {
+      const response = await fetch(`http://localhost:3000/post/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${user?.token}`
         }
-      };
-    
-      const handleDelete = async (id: string) => {
-        try {
-          const response = await fetch(`http://localhost:3000/post/${id}`, {
-            method: 'DELETE',
-            headers: {
-              'Authorization': `Bearer ${user?.token}`
-            }
-          });
-    
-          if (!response.ok) {
-            throw new Error('Erro ao deletar o post');
-          }
-    
-          console.log(`Post com id: ${id} deletado com sucesso`);
-          setPosts(postsList.filter(post => post.id !== id));
-        } catch (error) {
-          console.error('Erro ao deletar o post:', error);
-        }
-      };
+      });
+
+      if (!response.ok) {
+        throw new Error('Erro ao deletar o post');
+      }
+
+      console.log(`Post com id: ${id} deletado com sucesso`);
+      setPosts(postsList.filter(post => post.id !== id));
+    } catch (error) {
+      console.error('Erro ao deletar o post:', error);
+    }
+  };
 
    
-        return (
-            <PostListContainer>
-              <Title>Lista de Posts</Title>
-              <PostListUl>
-                {postsList.map(post => (
-                  <PostListItem key={post.id} >
-                    <PostTitle onClick={() => router.push({
-                    pathname: "/details-post", 
-                    query: {title: post.title, content: post.content, author: post.author.name, createdAt: post.createdAt, updatedAt: post.updatedAt}
-                    })}>{post.title}</PostTitle>
-                    <PostContent>{post.content}</PostContent>
-                    <AuthorInfo><strong>Autor:</strong> {post.author.name}</AuthorInfo>
-                    {isAdmin && (
-                        <ButtonContainer>
-                            <Button onClick={() => handleEdit(post.id)} variant="primary">Editar</Button>
-                            <Button onClick={() => handleDelete(post.id)} variant="secondary">Deletar</Button>
-                        </ButtonContainer>
-                    )}
-                  </PostListItem>
-                ))}
-              </PostListUl>
-              <PaginationContainer>
-                <PaginationButton onClick={onPreviousPage} disabled={currentPage === 0}>
-                  Anterior
-                </PaginationButton>
-                <span>Página {currentPage + 1} de {totalPages}</span>
-                <PaginationButton onClick={onNextPage} disabled={currentPage === totalPages - 1}>
-                  Próxima
-                </PaginationButton>
-              </PaginationContainer>
-            </PostListContainer>
-          );
+  return (
+      <PostListContainer>
+        <Title>Lista de Posts</Title>
+        <PostListUl>
+          {postsList.map(post => (
+            <PostListItem key={post.id} >
+              <PostTitle onClick={() => handleRedirect(post, "/details-post")}>{post.title}</PostTitle>
+              <PostContent>{post.content}</PostContent>
+              <AuthorInfo><strong>Autor:</strong> {post.author.name}</AuthorInfo>
+              {isAdmin && (
+                  <ButtonContainer>
+                      <Button onClick={() => handleRedirect(post, "/edit-post")} variant="primary">Editar</Button>
+                      <Button onClick={() => handleDelete(post.id)} variant="secondary">Deletar</Button>
+                  </ButtonContainer>
+              )}
+            </PostListItem>
+          ))}
+        </PostListUl>
+        <PaginationContainer>
+          <PaginationButton onClick={onPreviousPage} disabled={currentPage === 0}>
+            Anterior
+          </PaginationButton>
+          <span>Página {currentPage + 1} de {totalPages}</span>
+          <PaginationButton onClick={onNextPage} disabled={currentPage === totalPages - 1}>
+            Próxima
+          </PaginationButton>
+        </PaginationContainer>
+      </PostListContainer>
+    );
  
 };
 

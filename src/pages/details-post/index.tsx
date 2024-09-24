@@ -9,7 +9,7 @@ const DetailsPost = () => {
   const {title, author, content, createdAt, updatedAt} = router.query;
 
   const formatDate = (date:any, isUpdate: boolean) => {
-    let data = new Date(date.substr(0,10));
+    let data = new Date(date?.substr(0,10));
     if(isUpdate) data.setDate(data.getDate()-1)
     return data.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
   }

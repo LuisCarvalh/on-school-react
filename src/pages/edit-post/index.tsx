@@ -20,9 +20,9 @@ const EditPost: React.FC<Post> = () => {
   const { id, title, content, author} = router.query;
 
   const initialValues = {
-    title: title,
-    text: content,
-    author: author
+    title: title as string,
+    text: content as string,
+    author: author as string
   };
 
   const validationSchema = Yup.object({

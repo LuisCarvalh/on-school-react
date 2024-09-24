@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
-interface SuccessPopupProps {
+interface ModalProps {
   message: string;
-  onClose: () => void;
+  onCancel: () => void;
+  onConfirm: () => void;
 }
 
 const Overlay = styled.div`
@@ -29,17 +30,17 @@ const Button = styled.button`
   margin-top: 20px;
 `;
 
-const SuccessPopup: React.FC<SuccessPopupProps> = ({ message, onClose }) => {
-
+const Modal: React.FC<ModalProps> = ({ message, onCancel, onConfirm }) => {
   return (
     <Overlay>
       <Content>
-        <h2>Sucesso</h2>
+        <h2>Deletar post</h2>
         <p>{message}</p>
-        <Button onClick={onClose}>Fechar</Button>
+        <Button onClick={onCancel}>Cancelar</Button>
+        <Button onClick={onConfirm}>Confirmar</Button>
       </Content>
     </Overlay>
   );
 };
 
-export default SuccessPopup;
+export default Modal;

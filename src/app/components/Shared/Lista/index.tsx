@@ -5,8 +5,8 @@ import styled from 'styled-components';
 import Button from '../Button';
 import { Post } from '@/interfaces/Post';
 import { User } from '@/interfaces/User';
-import EditPost from '@/pages/edit-post';
 import { useRouter } from 'next/router';
+import Modal from '../Modal';
 
 interface PostListProps {
   posts: Post[];
@@ -82,6 +82,8 @@ const PaginationButton = styled.button`
 
 const PostList: React.FC<PostListProps> = ({ posts, isAdmin, user, currentPage, totalPages, onPreviousPage, onNextPage }) => {
   const [postsList, setPosts] = useState<Post[]>(posts);
+  const [isOpen, setIsOpen] = useState(false)
+  const [postId, setPostId] = useState('')
   const router = useRouter();
 
   const handleRedirect = (post: Post, pathName: string) => {
@@ -106,6 +108,7 @@ const PostList: React.FC<PostListProps> = ({ posts, isAdmin, user, currentPage, 
 
       console.log(`Post com id: ${id} deletado com sucesso`);
       setPosts(postsList.filter(post => post.id !== id));
+      setIsOpen(false);
     } catch (error) {
       console.error('Erro ao deletar o post:', error);
     }
@@ -124,8 +127,14 @@ const PostList: React.FC<PostListProps> = ({ posts, isAdmin, user, currentPage, 
               {isAdmin && (
                   <ButtonContainer>
                       <Button onClick={() => handleRedirect(post, "/edit-post")} variant="primary">Editar</Button>
-                      <Button onClick={() => handleDelete(post.id)} variant="secondary">Deletar</Button>
+                      <Button onClick={() => {setIsOpen(true), setPostId(post.id)}} variant="secondary">Deletar</Button>
                   </ButtonContainer>
+              )}
+              {isOpen && (
+                <Modal message="Tem certeza que deseja deletar o post? Não será possível reverter essa ação!" 
+                       onCancel={()=>{setIsOpen(false)}} 
+                       onConfirm={()=>{handleDelete(postId)}}
+                />
               )}
             </PostListItem>
           ))}

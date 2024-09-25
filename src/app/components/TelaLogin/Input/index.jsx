@@ -1,10 +1,19 @@
-import { Field } from "formik";
-import styled from "styled-components";
+/* eslint-disable linebreak-style */
+import { Field } from 'formik';
+import styled from 'styled-components';
 
 const Input = styled(Field)`
-  padding: 8px;
-  border: 1px solid #ccc;
+  padding: 0.1rem;
+  margim-bottom: 1rem;
+  font-size: 1rem;
+  border:none;
+  outline: none;
+  border-bottom: 2px solid #ccc;
   border-radius: 5px;
-`
-    
-export default Input
+  transition: border-color 0.3s;
+  &:focus {
+    border-color: #0070f3;
+  }
+`;
+
+export default Input;

@@ -71,7 +71,7 @@ export default function Login() {
   return (
     <main>
       <Container>
-        <Titulo>On-School</Titulo>
+        <Titulo>Login</Titulo>
         <Formik
           initialValues={initialValues}
           onSubmit={handleClick}
@@ -79,10 +79,10 @@ export default function Login() {
         >
           <Form>
             <Label htmlFor="email">Email:</Label>
-            <Input type="text" name="email" id="email"/>
+            <Input type="text" name="email" id="email" placeholder="Insira seu email"/>
             <ErrorMessage name="email" component={ErrorText}/>
             <Label htmlFor="password">Password:</Label>
-            <Input type="password" name="password" id="password"/>
+            <Input type="password" name="password" id="password" placeholder="Insira sua senha"/>
             <ErrorMessage name="password" component={ErrorText}/>
             <Button type="submit">Login</Button>
             <Links href="/register" style={{alignSelf: "center"}}>Crie uma conta aqui!</Links>

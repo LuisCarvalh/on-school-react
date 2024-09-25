@@ -21,7 +21,7 @@ interface PostListProps {
 const PostListContainer = styled.div`
   max-width: 800px;
   margin: 2rem auto 0;
-  padding: 20px;
+  padding: 25px;
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -29,20 +29,23 @@ const PostListContainer = styled.div`
 
 const Title = styled.h1`
   text-align: center;
-  color: #333;
+  color: #605B56;
 `;
 
 const PostListUl = styled.ul`
   list-style: none;
   padding: 0;
+  margin: 10px 0;
 `;
 
 const PostListItem = styled.li`
-  background-color: #fff;
+  background: #fff;
   margin-bottom: 20px;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: sans-serif;
+  font-size: 0.8rem;
 `;
 
 const PostTitle = styled.h2`
@@ -57,12 +60,14 @@ const PostTitle = styled.h2`
 
 const PostContent = styled.p`
   margin: 0 0 10px;
-  color: #666;
+  color: black;
 `;
 
 const AuthorInfo = styled.p`
   font-weight: bold;
   color: #333;
+  font-size: 0.8rem;
+  font-family: sans-serif;
 `;
 
 const ButtonContainer = styled.div`
@@ -70,15 +75,48 @@ const ButtonContainer = styled.div`
   justify-content: flex-end;
 `;
 
+
 const PaginationContainer = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 20px;
+  margin: 0 0 10px;
 `;
 
 const PaginationButton = styled.button`
   margin: 0 5px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  font-family: sans-serif;
+  padding: 2px 3px;
+  background-color: #f9f9f9;
+  color white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+
+   &:hover {
+    background-color: #f0f0f0;
+    
+
+    &:active {
+    background-color: #e0e0e0; 
+    transform: scale(0.98);
+
+     &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px); 
+  }
+  
 `;
+
+const StyledSpan = styled.span`
+  font-size: 0.8rem;
+  font-weight: bold;
+  font-family: sans-serif;
+`;
+
 
 const PostList: React.FC<PostListProps> = ({ posts, isAdmin, user, currentPage, totalPages, onPreviousPage, onNextPage }) => {
   const [postsList, setPosts] = useState<Post[]>(posts);
@@ -143,7 +181,7 @@ const PostList: React.FC<PostListProps> = ({ posts, isAdmin, user, currentPage, 
           <PaginationButton onClick={onPreviousPage} disabled={currentPage === 0}>
             Anterior
           </PaginationButton>
-          <span>Página {currentPage + 1} de {totalPages}</span>
+          <StyledSpan>Página {currentPage + 1} de {totalPages}</StyledSpan>
           <PaginationButton onClick={onNextPage} disabled={currentPage === totalPages - 1}>
             Próxima
           </PaginationButton>

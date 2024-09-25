@@ -13,6 +13,7 @@ import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/router";
 import { Post } from "@/interfaces/Post";
 import Links from "@/app/components/Shared/Link";
+import { styled } from "styled-components";
 
 const EditPost: React.FC<Post> = () => {
   const { user } = useUser();
@@ -58,9 +59,15 @@ const EditPost: React.FC<Post> = () => {
       console.error('Houve um erro:', error);
     }
   };
+  
+  const ContainerEditar = styled(Container)`  
+    padding: 20px;
+    width: 50%;
+    margin: 0 auto;
+  `;
 
   return (
-    <Container>
+    <ContainerEditar>
       <Links href="/list-post">Voltar</Links>
       <Titulo>Editar Post</Titulo>
       <Formik
@@ -82,7 +89,7 @@ const EditPost: React.FC<Post> = () => {
           </Form>
         )}
       </Formik>
-    </Container>
+    </ContainerEditar>
   );
 };
 

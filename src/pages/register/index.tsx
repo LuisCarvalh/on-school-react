@@ -83,21 +83,22 @@ export default function Register() {
   return (
     <>
       <Container>
-        <Titulo>On-School</Titulo>
+      <Links href="/">Voltar</Links>
+        <Titulo>Cadastre-se</Titulo>
         <Formik
           initialValues={initialValues}
           onSubmit={handleClick}
           validationSchema={validationSchema}
         >
           <Form>
-            <Links href="/">Voltar</Links>
+          
             
             <Label htmlFor="name">Nome:</Label>
-            <Input type="text" name="name" id="name"/>
+            <Input type="text" name="name" id="name" placeholder=" Insira um nome"/>
             <ErrorMessage name="name" component={ErrorText}/>
 
             <Label htmlFor="email">Email:</Label>
-            <Input type="text" name="email" id="email"/>
+            <Input type="text" name="email" id="email" placeholder="Insira um email"/>
             <ErrorMessage name="email" component={ErrorText}/>
 
             <Label htmlFor="isadmin">Tipo de usuário:</Label>
@@ -107,11 +108,11 @@ export default function Register() {
             </Field>
 
             <Label htmlFor="password">Senha:</Label>
-            <Input type="password" name="password" id="password"/>
+            <Input type="password" name="password" id="password" placeholder="Insira uma senha"/>
             <ErrorMessage name="password" component={ErrorText}/>
 
             <Label htmlFor="confirmPassword">Confirme sua senha:</Label>
-            <Input type="password" name="confirmPassword" id="confirmPassword"/>
+            <Input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirme sua senha"/>
             <ErrorMessage name="confirmPassword" component={ErrorText}/>
 
             <Button type="submit">Register</Button>

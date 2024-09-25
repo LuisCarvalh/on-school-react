@@ -1,18 +1,20 @@
-import styled from "styled-components";
+/* eslint-disable linebreak-style */
+import styled from 'styled-components';
 
 const Button = styled.button`
-    width: 100%;
-    background-color: #3e7eed;
+    padding: 0.75rem;
+    background-color: #A8C7BB;
     border: none;
-    border-radius: 8px;
-    padding: 12px;
+    border-radius: 4px;
     margin-top: 8px;
-    color: white;
-    font-size: 18px;
+    color: black;
+    font-size: 1rem;
     cursor: pointer;
+    transition: background-color 0.3s;
     &:hover {
         opacity: 0.8;
+        background-color: #A8C7BB;
     }
-`
-    
-export default Button
+`;
+
+export default Button;

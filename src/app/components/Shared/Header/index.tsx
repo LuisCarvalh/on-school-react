@@ -11,8 +11,9 @@ const HeaderContainer = styled.header`
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  background-color: #007bff;
-  color: #fff;
+  background-color: transparent;
+  color: #605B56;
+  font-family: sans-serif;
 `;
 
 const Logo = styled.div`
@@ -27,12 +28,17 @@ const UserInfo = styled.div`
 
 const UserName = styled.span`
   margin-right: 10px;
+  font-weight: bold;
+  font-size: 15px;
+  font-family: sans-serif;
+  color: black;
 `;
 
 const LogoutButton = styled.button`
   padding: 5px 10px;
   border: none;
   border-radius: 4px;
+  font-family: sans-serif;
   background-color: #dc3545;
   color: #fff;
   cursor: pointer;
@@ -44,15 +50,18 @@ const LogoutButton = styled.button`
 
 const CreatePostLink = styled(Link)`
   margin-right: 10px;
+  justify-content: center;
+  diplsay: flex;
   padding: 5px 10px;
+  font-family: sans-serif;
   border: none;
   border-radius: 4px;
-  background-color: #28a745;
+  background-color: #3F53D0;
   color: #fff;
   text-decoration: none;
 
   &:hover {
-    background-color: #218838;
+    background-color: #1E247C;
   }
 `;
 

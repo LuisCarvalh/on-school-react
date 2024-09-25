@@ -13,6 +13,7 @@ import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import Links from "@/app/components/Shared/Link";
+import { styled } from "styled-components";
 
 const CreatePost = () => {
   const { user } = useUser();
@@ -58,8 +59,15 @@ const CreatePost = () => {
     }
   };
 
+  const ContainerPost = styled(Container)`  
+    padding: 30px;
+    max-width: 800px;
+    border-radius: 8px;
+    width: 100%;
+  `;
+
   return (
-    <Container>
+    <ContainerPost>
       <Links href="/list-post">Voltar</Links>
       <Titulo>Criar Post</Titulo>
       <Formik
@@ -70,10 +78,10 @@ const CreatePost = () => {
         {({ handleSubmit }) => (
           <Form onSubmit={handleSubmit}>
             <Label htmlFor="title">Título</Label>
-            <Field name="title" type="text" as={Input} />
+            <Field name="title" type="text" as={Input} placeholder="Insira um título para sua postagem"/>
             <ErrorMessage name="title" component={ErrorText} />
 
-            <Label htmlFor="text">Texto</Label>
+            <Label htmlFor="text"> Conteúdo </Label>
             <Field name="text" as="textarea" className="textarea" />
             <ErrorMessage name="text" component={ErrorText} />
 
@@ -81,7 +89,7 @@ const CreatePost = () => {
           </Form>
         )}
       </Formik>
-    </Container>
+    </ContainerPost>
   );
 };
 

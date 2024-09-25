@@ -1,6 +1,6 @@
 html{
-    height: 100vh;
-    background-color: #efefef;
+    height: 150%;
+    background: linear-gradient(150deg, #92C9B1, #4F759B);
 }
 
 *{

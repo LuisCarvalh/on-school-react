@@ -15,9 +15,9 @@ const StyledButton = styled.button<{ variant: 'primary' | 'secondary' }>`
   cursor: pointer;
   font-size: 16px;
   color: #fff;
-  background-color: ${props => (props.variant === 'primary' ? '#007bff' : '#dc3545')};
+  background-color: ${props => (props.variant === 'primary' ? '#6E9ED5' : '#EC4646')};
   &:hover {
-    background-color: ${props => (props.variant === 'primary' ? '#0056b3' : '#c82333')};
+    background-color: ${props => (props.variant === 'primary' ? '#6181DA' : '#E62525')};
   }
 `;
 

@@ -41,7 +41,7 @@ const PostListPage = () => {
     };
 
     fetchPosts(currentPage);
-  }, [currentPage]);
+  }, [currentPage]); 
 
   const handlePreviousPage = () => {
     if (currentPage > 0) {

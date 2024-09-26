@@ -160,7 +160,9 @@ const PostList: React.FC<PostListProps> = ({ posts, isAdmin, user, currentPage, 
           {postsList.map(post => (
             <PostListItem key={post.id} >
               <PostTitle onClick={() => handleRedirect(post, "/details-post")}>{post.title}</PostTitle>
-              <PostContent>{post.content}</PostContent>
+              <PostContent>
+              {post.content.length > 100 ? `${post.content.substring(0, 100)}...` : post.content}
+              </PostContent>
               <AuthorInfo><strong>Autor:</strong> {post.author.name}</AuthorInfo>
               {isAdmin && (
                   <ButtonContainer>

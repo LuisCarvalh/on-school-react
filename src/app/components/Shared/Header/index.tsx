@@ -76,10 +76,10 @@ const Header: React.FC = () => {
       <Logo>On-School</Logo>
       {user && (
         <UserInfo>
+          <UserName>Olá, {user.name}</UserName>
           {user.isadmin && currentRoute !== '/create-post'  && (
             <CreatePostLink href="/create-post">Criar Post</CreatePostLink>
           )}
-          <UserName>{user.name}</UserName>
           <LogoutButton onClick={logout}>Logout</LogoutButton>
         </UserInfo>
       )}

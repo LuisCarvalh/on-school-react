@@ -1,11 +1,22 @@
 import React from 'react';
 import styled from 'styled-components';
+import Button from '../Button';
 
 interface ModalProps {
   message: string;
   onCancel: () => void;
   onConfirm: () => void;
 }
+
+const ModalTitle = styled.h2`
+  margin: 0 0 10px;
+  color: #333;
+`;
+
+const ModalContent = styled.p`
+  margin: 0 0 10px;
+  color: black;
+`;
 
 const Overlay = styled.div`
   position: fixed;
@@ -26,18 +37,14 @@ const Content = styled.div`
   text-align: center;
 `;
 
-const Button = styled.button`
-  margin-top: 20px;
-`;
-
 const Modal: React.FC<ModalProps> = ({ message, onCancel, onConfirm }) => {
   return (
     <Overlay>
       <Content>
-        <h2>Deletar post</h2>
-        <p>{message}</p>
-        <Button onClick={onCancel}>Cancelar</Button>
-        <Button onClick={onConfirm}>Confirmar</Button>
+        <ModalTitle>Deletar post</ModalTitle>
+        <ModalContent>{message}</ModalContent>
+        <Button onClick={onCancel} variant='secondary'>Cancelar</Button>
+        <Button onClick={onConfirm} variant="primary">Confirmar</Button>
       </Content>
     </Overlay>
   );

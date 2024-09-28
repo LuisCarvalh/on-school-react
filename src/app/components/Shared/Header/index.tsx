@@ -56,12 +56,12 @@ const CreatePostLink = styled(Link)`
   font-family: sans-serif;
   border: none;
   border-radius: 4px;
-  background-color: #3F53D0;
+  background-color: #2364A9;
   color: #fff;
   text-decoration: none;
 
   &:hover {
-    background-color: #1E247C;
+    background-color: #1F5A98;
   }
 `;
 

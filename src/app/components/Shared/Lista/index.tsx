@@ -89,15 +89,15 @@ const PaginationButton = styled.button`
   font-weight: bold;
   font-family: sans-serif;
   padding: 2px 3px;
-  background-color: #f9f9f9;
-  color white;
-  border: 1px solid #ccc;
+  background-color: #cadbee;
+  color: #586167;
+  border: 1px solid #fff;
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s, transform 0.3s;
 
    &:hover {
-    background-color: #f0f0f0;
+    background-color: #cadbee;
     
 
     &:active {
@@ -181,11 +181,11 @@ const PostList: React.FC<PostListProps> = ({ posts, isAdmin, user, currentPage, 
         </PostListUl>
         <PaginationContainer>
           <PaginationButton onClick={onPreviousPage} disabled={currentPage === 0}>
-            Anterior
+             {" < "}Anterior
           </PaginationButton>
           <StyledSpan>Página {currentPage + 1} de {totalPages}</StyledSpan>
           <PaginationButton onClick={onNextPage} disabled={currentPage === totalPages - 1}>
-            Próxima
+          Próxima{" > "}
           </PaginationButton>
         </PaginationContainer>
       </PostListContainer>

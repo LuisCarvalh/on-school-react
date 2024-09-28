@@ -25,12 +25,13 @@ const Button = styled.button`
   font-size: 16px;
   border: none;
   border-radius: 4px;
-  background-color: #6E9ED5;
+  background-color: #2364A9;
   color: white;
   cursor: pointer;
 
   &:hover {
-    background-color: #6181DA;
+    opacity: 0.8;
+    background-color: #1C5087;
   }
 `;
 
